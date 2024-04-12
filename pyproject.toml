@@ -15,7 +15,7 @@ requests = "^2.31.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^8.1.1"
-black = "^3.11.5"
+black = "^24.4.0"
 
 [tool.semantic_release]
 version_toml = [
