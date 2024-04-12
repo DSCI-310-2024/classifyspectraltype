@@ -1,17 +1,62 @@
 import os
+from pathlib import Path
 import sys
 
 import pandas as pd
 import pytest
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from src.split_cross_val import split_cross_val
+from src.classifyspectraltype.clean_confidence_intervals import (
+    clean_confidence_intervals,
+)
+from src.classifyspectraltype.fetch_exoplanet_dataset import fetch_data
+from src.classifyspectraltype.split_cross_val import split_cross_val
 
 
-def test_split_cross_val_results():
-    results = split_cross_val(
-        "data/processed/planet-systems.csv", "st_spectype", split=0.7, folds=5
+@pytest.fixture(scope="session")
+def data_dir():
+    # this fixture is responsible to download the data and preprocess it then save it
+    # under the data folder, finally returning the name of this folder
+    columns = [
+        "pl_name",
+        "st_spectype",
+        "sy_umag",
+        "sy_gmag",
+        "sy_rmag",
+        "sy_imag",
+        "sy_zmag",
+    ]
+    exoplanet_data = fetch_data(
+        "https://exoplanetarchive.ipac.caltech.edu", "data/raw/test_data.csv", columns
     )
+    output_file = Path("data") / "processed" / "planet-systems.csv"
+    os.makedirs(output_file.parent, exist_ok=True)
+    # Drop the rows with NA values
+    exoplanet_data = exoplanet_data.dropna(
+        subset=["st_spectype", "sy_umag", "sy_gmag", "sy_rmag", "sy_imag", "sy_zmag"]
+    )
+    clean_confidence_intervals(exoplanet_data)
+
+    for col in exoplanet_data.columns:
+        if col.endswith("str"):
+            new_col_name = col[:-3]
+            exoplanet_data.rename(columns={col: new_col_name}, inplace=True)
+    exoplanet_data = exoplanet_data.copy()
+    exoplanet_data["st_spectype"] = exoplanet_data["st_spectype"].transform(
+        lambda x: x[0]
+    )
+
+    exoplanet_data = exoplanet_data.loc[
+        exoplanet_data["st_spectype"].isin(["O", "B", "A", "F", "G", "K", "M"])
+    ]
+    exoplanet_data["st_spectype"] = exoplanet_data["st_spectype"].astype("category")
+
+    exoplanet_data.to_csv(output_file, index=False)
+    return output_file
+
+
+def test_split_cross_val_results(data_dir):
+    results = split_cross_val(data_dir, "st_spectype", split=0.7, folds=5)
 
     assert (
         "logistic" in results
@@ -30,11 +75,9 @@ def test_split_cross_val_results():
     ), "There should be 4 results returned"
 
 
-def test_split_cross_val_scores():
+def test_split_cross_val_scores(data_dir):
 
-    results = split_cross_val(
-        "data/processed/planet-systems.csv", "st_spectype", split=0.7, folds=5
-    )
+    results = split_cross_val(data_dir, "st_spectype", split=0.7, folds=5)
 
     # Check if the scores are in the expected format
     for model, scores in results.items():
@@ -50,18 +93,16 @@ def test_split_cross_val_scores():
         ), f"Train score should be in the {model} model scores."
 
 
-def test_invalid_parameters():
+def test_invalid_parameters(data_dir):
 
     # Invalid target column
     with pytest.raises(KeyError):
-        split_cross_val(
-            "data/processed/planet-systems.csv", "invalid_col", split=0.7, folds=5
-        )
+        split_cross_val(data_dir, "invalid_col", split=0.7, folds=5)
 
     # Non-existing data
     with pytest.raises(FileNotFoundError):
         split_cross_val(
-            "data/processed/planet-systems-cleaned.csv",
+            "dummy-file-path/data.csv",
             "st_spectype",
             split=0.7,
             folds=5,
@@ -69,12 +110,8 @@ def test_invalid_parameters():
 
     # Invalid split ratio
     with pytest.raises(ValueError):
-        split_cross_val(
-            "data/processed/planet-systems.csv", "st_spectype", split=1.7, folds=5
-        )
+        split_cross_val(data_dir, "st_spectype", split=1.7, folds=5)
 
     # Non-existing data
     with pytest.raises(ValueError):
-        split_cross_val(
-            "data/processed/planet-systems.csv", "st_spectype", split=0.7, folds=-1
-        )
+        split_cross_val(data_dir, "st_spectype", split=0.7, folds=-1)

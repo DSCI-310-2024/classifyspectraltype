@@ -6,7 +6,7 @@ import pandas as pd
 import pytest
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from src.boxplot_table_function import make_boxplot_and_table
+from src.classifyspectraltype.boxplot_table_function import make_boxplot_and_table
 
 
 @pytest.fixture

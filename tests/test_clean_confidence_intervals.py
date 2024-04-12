@@ -5,7 +5,9 @@ import numpy as np
 
 # Import the clean_confidence_intervals function from the src folder
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from src.clean_confidence_intervals import clean_confidence_intervals
+from src.classifyspectraltype.clean_confidence_intervals import (
+    clean_confidence_intervals,
+)
 
 
 # Test that the function correctly processes columns containing
