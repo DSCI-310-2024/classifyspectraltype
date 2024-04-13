@@ -13,7 +13,9 @@ def fetch_data(
     """
     Purpose:
     Download dataset from the specified url and save it to the provided path.
+
     This function is capable of downloading datasets from exoplanetarchive.
+
     The dataset is saved under data/raw/Y-M-D_planet-systems.csv,
     along with its processed version under data/processed/planet-systems.csv by default.
 
