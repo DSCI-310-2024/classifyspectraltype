@@ -4,13 +4,12 @@ import sys
 
 import pandas as pd
 import pytest
-
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-from src.classifyspectraltype.clean_confidence_intervals import (
+print(sys.path)
+from classifyspectraltype.clean_confidence_intervals import (
     clean_confidence_intervals,
 )
-from src.classifyspectraltype.fetch_exoplanet_dataset import fetch_data
-from src.classifyspectraltype.split_cross_val import split_cross_val
+from classifyspectraltype.fetch_exoplanet_dataset import fetch_data
+from classifyspectraltype.split_cross_val import split_cross_val
 
 
 @pytest.fixture(scope="session")

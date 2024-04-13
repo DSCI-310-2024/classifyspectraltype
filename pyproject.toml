@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "classifyspectraltype"
-version = "0.1.0"
+version = "0.2.0"
 description = "makes the analysis easier!"
 authors = ["DSCI310 Group16"]
 license = "MIT"
