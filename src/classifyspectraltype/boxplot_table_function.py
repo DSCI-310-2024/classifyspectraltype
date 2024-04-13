@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 
 def make_boxplot_and_table(data, column_name, csv_dir, box_plot_dir):
     """
-    Purpose: creates a boxplot and a csv file given the dataframe the desired column name
+    Purpose: 
+    creates a boxplot and a csv file given the dataframe the desired column name
     of which we want to investigate. Our function will also save all of these figures to the given
     file directory path.
 
@@ -24,7 +25,8 @@ def make_boxplot_and_table(data, column_name, csv_dir, box_plot_dir):
 
     # create and save csv for given column provided
     column_csv = data[["st_spectype", column_name]].groupby("st_spectype").describe()
-    column_csv.to_csv(f"{csv_dir}/{column_name}.csv")
+    column_csv2 = column_csv.round(2)
+    column_csv2.to_csv(f"{csv_dir}/{column_name}.csv")
 
     # create and save png for given column provided
     data[["st_spectype", column_name]].groupby("st_spectype").boxplot()
