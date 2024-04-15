@@ -53,7 +53,8 @@ def data_dir():
     exoplanet_data.to_csv(output_file, index=False)
     return output_file
 
-
+# Test whether the function returns a dictionary containing the results for logistic regression 
+# and random forests models as pd.Series objects, each with the expected number of results.
 def test_split_cross_val_results(data_dir):
     results = split_cross_val(data_dir, "st_spectype", split=0.7, folds=5)
 
@@ -74,6 +75,8 @@ def test_split_cross_val_results(data_dir):
     ), "There should be 4 results returned"
 
 
+# Checks that the function returns a dictionary of scores with the appropriate keys, 
+# ensuring that fit time, score time, test score, and train score are present for each model.
 def test_split_cross_val_scores(data_dir):
 
     results = split_cross_val(data_dir, "st_spectype", split=0.7, folds=5)
@@ -92,6 +95,9 @@ def test_split_cross_val_scores(data_dir):
         ), f"Train score should be in the {model} model scores."
 
 
+# Verifies that the function raises appropriate exceptions when provided 
+# with invalid parameters. This includes testing for an invalid target column, 
+# a non-existing file path, an invalid split ratio, and an invalid number of folds.
 def test_invalid_parameters(data_dir):
 
     # Invalid target column

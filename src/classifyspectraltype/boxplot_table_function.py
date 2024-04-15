@@ -18,9 +18,9 @@ def make_boxplot_and_table(data, column_name, csv_dir, box_plot_dir):
     - box_plot_dir: Path to the directory in which we want the box plot figures to live
 
     Returns:
-    1. A csv with the quantitative descriptions (mean, std, min) for the four bands (FGKM) loaded into
+    - A csv with the quantitative descriptions (mean, std, min) for the four bands (FGKM) loaded into
     the corresponding directory
-    2. A boxplot of each of the four bands loaded into the corresponding directory
+    - A boxplot of each of the four bands loaded into the corresponding directory
     """
 
     # create and save csv for given column provided
