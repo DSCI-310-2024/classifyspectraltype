@@ -23,9 +23,15 @@ def fetch_data(
     https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=PS
 
     Parameters:
-    - url (str): The URL from which to fetch the data.
-    - output_path (str): The file path where the fetched raw data will be saved.
-
+    - base_url (str): The URL from which to fetch the data.
+    - output_path (str): The file path where the fetched raw data will be saved. This 
+        specifies the location on the local filesystem where the downloaded dataset should be stored.
+    - columns (list[str]): A list of column names to be fetched from the dataset. 
+        This parameter defines which attributes or fields of the data should be included 
+        in the query and subsequently in the returned DataFrame. For instance, if accessing 
+        a database with many columns, this list explicitly states which columns to retrieve, 
+        optimizing the fetching process and ensuring that only relevant data is loaded.
+        
     Returns:
     - pd.DataFrame: A pandas DataFrame containing the fetched data.
 

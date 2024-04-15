@@ -42,8 +42,8 @@ def bp_dir():
     yield bp_dir
 
 
+# Test 1: Ensures csv is saved to the given directory
 def test_csv_saves_to_dir(data, csv_dir, bp_dir):
-    # Test 1: Ensures csv is saved to the given directory
     column_star = "column_star"
 
     make_boxplot_and_table(data, column_star, csv_dir, bp_dir)
@@ -54,8 +54,8 @@ def test_csv_saves_to_dir(data, csv_dir, bp_dir):
 
 if False:
 
+    # Test 2: Makes sure csv matches the expected test data given
     def test_csv_matches(data, csv_dir, bp_dir):
-        # Test 2: Makes sure csv matches the expected test data given
         column_moon = "column_moon"
         make_boxplot_and_table(data, column_moon, csv_dir, bp_dir)
 
@@ -64,8 +64,8 @@ if False:
         assert dir_csv_data.equals(csv_data), ".csv files do not match eachother!"
 
 
+# Test 3: Ensures boxplot is saved to the given directory
 def test_bp_saves_to_dir(data, csv_dir, bp_dir):
-    # Test 3: Ensures boxplot is saved to the given directory
     column_sun = "column_sun"
     make_boxplot_and_table(data, column_sun, csv_dir, bp_dir)
     assert os.path.exists(
@@ -74,9 +74,8 @@ def test_bp_saves_to_dir(data, csv_dir, bp_dir):
 
 
 if False:
-
+    # Test 4: Ensures boxplot matches the expected test data given
     def test_bp_matches(data, csv_dir, bp_dir):
-        # Test 4: Ensures boxplot matches the expected test data given
         column_moon = "column_moon"
         make_boxplot_and_table(data, column_moon, csv_dir, bp_dir)
         dir_bp_read = plt.imread(f"{bp_dir}/{column_moon}.png")
@@ -91,8 +90,8 @@ if False:
         assert dir_bp_read == test_bp_read, "Boxplot figures do not match eachother!"
 
 
+# Test 5: Checks if an invalid path is given
 def test_invalid_path(data):
-    # Test 5: Checks if an invalid path is given
     column_moon = "column_moon"
     with pytest.raises(OSError) as e:
         make_boxplot_and_table(
