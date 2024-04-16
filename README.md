@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/DSCI-310-2024/classifyspectraltype/branch/main/graph/badge.svg)](https://codecov.io/gh/DSCI-310-2024/classifyspectraltype)
+
 # classifyspectraltype
 
 `classifyspectraltype` is a Python package tailored for data scientists and analysts focusing on predictive analytics in laptop pricing. This package focuses on data cleaning, file copying, logistic regression modeling, and plot saving functionalities to facilitate a smoother workflow from raw data to insights.
